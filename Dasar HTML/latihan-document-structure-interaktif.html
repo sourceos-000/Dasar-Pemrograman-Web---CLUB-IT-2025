@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Latihan: Struktur Dokumen HTML (Interaktif)</title>
+  <style>
+    :root{--bg:#0f172a;--card:#0b1220;--muted:#94a3b8;--accent:#38bdf8}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;background:linear-gradient(180deg,#071024 0%, #021026 100%);color:#e6eef8;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px}
+    .wrap{width:1100px;max-width:100%;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.6)}
+    header{display:flex;gap:12px;align-items:center;margin-bottom:12px}
+    header h1{margin:0;font-size:20px}
+    .meta{color:var(--muted);font-size:13px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .panel{background:var(--card);border-radius:8px;padding:12px;min-height:360px;display:flex;flex-direction:column}
+    label{font-size:13px;color:var(--muted);margin-bottom:6px}
+    textarea{flex:1;background:#031025;color:#e6eef8;border:1px solid rgba(255,255,255,0.03);padding:12px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;font-size:13px;resize:vertical;min-height:220px}
+    iframe.preview{flex:1;border:1px solid rgba(255,255,255,0.03);border-radius:6px;background:white}
+    .controls{display:flex;gap:8px;align-items:center;margin-top:10px}
+    button{background:var(--accent);color:#012234;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;font-weight:600}
+    button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);font-weight:600}
+    .hint{font-size:13px;color:var(--muted);margin-top:8px}
+    .task{background:linear-gradient(180deg, rgba(56,189,248,0.06), rgba(56,189,248,0.03));padding:8px;border-radius:6px;color:#dff6ff;margin-top:10px;border:1px solid rgba(56,189,248,0.08)}
+    .footer{display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--muted);font-size:13px}
+    .btns{display:flex;gap:8px}
+    a.link{color:var(--accent);text-decoration:none}
+    @media(max-width:900px){.cols{grid-template-columns:1fr;}.wrap{padding:12px}}
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main">
+    <header>
+      <div>
+        <h1>Latihan Interaktif: Struktur Dokumen HTML</h1>
+        <div class="meta">Ubah kode di kiri lalu klik <strong>Run</strong> untuk melihat hasil di kanan. Cocok untuk latihan yang akan di-embed ke Notion atau dijalankan lokal.</div>
+      </div>
+    </header>
+
+    <div class="cols" aria-live="polite">
+      <div class="panel" aria-label="Editor kode">
+        <label for="code">Kode HTML (edit di sini)</label>
+        <textarea id="code" spellcheck="false" aria-describedby="taskdesc"><!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Belajar Struktur HTML</title>
+</head>
+<body>
+  <h1>Halo Dunia!</h1>
+  <p>Ini adalah contoh struktur dokumen HTML sederhana.</p>
+</body>
+</html></textarea>
+
+        <div class="controls" role="toolbar">
+          <button id="runBtn">Run</button>
+          <button id="resetBtn" class="ghost">Reset</button>
+          <div class="btns" style="margin-left:auto">
+            <button id="openNew" class="ghost">Buka di Tab Baru</button>
+            <button id="download" class="ghost">Download .html</button>
+          </div>
+        </div>
+
+        <div class="hint" id="taskdesc">Tugas: 1) Ubah &lt;h1&gt; menjadi "Halo, saya [Namamu]". 2) Tambahkan satu &lt;p&gt; berisi motivasi singkat. 3) Klik Run untuk melihat hasil.</div>
+
+        <div class="task" aria-hidden="false">
+          <strong>Instruksi singkat:</strong>
+          <ol style="margin:8px 0 0 18px">
+            <li>Edit teks &lt;h1&gt; sesuai namamu.</li>
+            <li>Tambahkan paragraf baru &lt;p&gt; (contoh: "Saya suka belajar web!")</li>
+            <li>Klik <strong>Run</strong> untuk melihat perubahan.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="panel" aria-label="Preview">
+        <label>Hasil Preview</label>
+        <iframe id="preview" class="preview" title="Preview halaman HTML"></iframe>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div>Template interaktif untuk topik <strong>Document Structure</strong>. Cocok di-embed sebagai latihan.</div>
+      <div>Butuh versi CodePen? Ikuti instruksi di bawah.</div>
+    </div>
+  </div>
+
+  <script>
+    const codeEl = document.getElementById('code');
+    const preview = document.getElementById('preview');
+    const runBtn = document.getElementById('runBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const openNew = document.getElementById('openNew');
+    const download = document.getElementById('download');
+
+    const defaultCode = codeEl.value;
+
+    function updatePreview(){
+      const doc = preview.contentWindow.document;
+      doc.open();
+      doc.write(codeEl.value);
+      doc.close();
+    }
+
+    runBtn.addEventListener('click', () => {
+      updatePreview();
+      runBtn.textContent = 'Run ✓';
+      setTimeout(()=> runBtn.textContent='Run',900);
+    });
+
+    resetBtn.addEventListener('click', () => {
+      codeEl.value = defaultCode;
+      updatePreview();
+    });
+
+    openNew.addEventListener('click', () => {
+      const blob = new Blob([codeEl.value], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+      setTimeout(()=> URL.revokeObjectURL(url), 10000);
+    });
+
+    download.addEventListener('click', () => {
+      const blob = new Blob([codeEl.value], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'latihan-document-structure.html';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=> URL.revokeObjectURL(url), 10000);
+    });
+
+    // initialize preview
+    updatePreview();
+  </script>
+</body>
+</html>
